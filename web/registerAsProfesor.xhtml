@@ -9,19 +9,19 @@
         Register as Professor
     </ui:define>
 
-    <ui:define name="body">]
+    <ui:define name="body">
         <h:form>
             <h:panelGrid columns="2">
                 <h:outputText value="Name :"></h:outputText>
-                <h:inputText id="username" value="#{UserController.name}"
+                <h:inputText id="username" value="#{registerController.name}"
                              required="true" requiredMessage="Please Enter Name!"></h:inputText>
 
                 <h:outputText value="Password :"></h:outputText>
-                <h:inputSecret id="password" value="#{UserController.password}"
+                <h:inputSecret id="password" value="#{registerController.password}"
                                required="true" requiredMessage="Please Enter Password!"></h:inputSecret>
 
                 <h:commandButton type="submit" value="Submit"
-                                 action="#{UserController.addUser}"></h:commandButton>
+                                 action="#{registerController.addUserProfessor}"></h:commandButton>
                 <h:commandButton type="reset" value="Reset"></h:commandButton>
             </h:panelGrid>
         </h:form>

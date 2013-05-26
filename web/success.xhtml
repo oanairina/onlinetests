@@ -12,17 +12,8 @@
     <ui:define name="body">
         <h:form>
             <h:panelGrid columns="2">
-                <h:outputText value="Name :"></h:outputText>
-                <h:inputText id="username" value="#{userController.name}"
-                             required="true" requiredMessage="Please Enter Name!"></h:inputText>
-
-                <h:outputText value="Password :"></h:outputText>
-                <h:inputSecret id="password" value="#{userController.password}"
-                               required="true" requiredMessage="Please Enter Password!"></h:inputSecret>
-
-                <h:commandButton type="submit" value="Login"
-                                 action="#{userController.checkUser}"></h:commandButton>
-                                 <br/>
+                <h:outputText value="Welcome, #{userController.name} !"></h:outputText>
+              <br/>
                 <h:commandButton value="Back" action="index"/>
             </h:panelGrid>
         </h:form>

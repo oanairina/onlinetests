@@ -9,7 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import pojo.Answer;
 import pojo.Category;
-import pojo.Controller;
 import pojo.Domain;
 import pojo.Question;
 import pojo.User;

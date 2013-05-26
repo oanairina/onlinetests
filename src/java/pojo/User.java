@@ -19,7 +19,6 @@ public class User  implements java.io.Serializable {
 
     public User() {
     }
-
 	
     public User(String name, String password, boolean type) {
         this.name = name;

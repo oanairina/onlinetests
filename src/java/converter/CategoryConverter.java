@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import pojo.Category;
-import pojo.Controller;
+import controller.Controller;
 
 @FacesConverter("categoryConverter")
 public class CategoryConverter implements Converter {
