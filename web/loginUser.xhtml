@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="top">
+        Login
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <h:outputText value="Domains:"/>
+            <h:dataTable value="#{domainController.domainList}" var="domain">
+                <h:column>
+                    <f:facet name="header">Domain Name</f:facet>
+                        #{domain.name}
+                </h:column>
+            </h:dataTable>
+            <br />
+            <h:commandButton value="Back" action="index"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

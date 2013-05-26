@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top">
+        top
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <h:outputText value="Questions: "/>
+            <h:dataTable value="#{questionController.questionList}" var="question" border="1">
+
+                <h:column>
+                    <f:facet name="header">Questions </f:facet>
+                        #{question.text}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Difficulty level</f:facet>
+                        #{question.difficultyLevel}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Category</f:facet>
+                        #{question.category.name}
+                </h:column>
+
+            </h:dataTable>
+            <br />
+
+
+            <h:commandButton value="Back" action="index"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
