@@ -3,7 +3,8 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
 
     <ui:define name="top">
         top
@@ -12,6 +13,26 @@
     <ui:define name="body">
         <h:form>
             <h:outputText value="Answers "/>
+            <p:dataTable id="answers" var="answer" value="#{answerBean.answersList}" rowKey="#{answer.id}"  
+                         selection="#{answerBean.selectedAnswer}" selectionMode="single">  
+
+                <p:column headerText="ID">  
+                    #{answer.id}  
+                </p:column>  
+
+                <p:column headerText="QUESTION">  
+                    #{answer.question} 
+                </p:column>  
+
+                <p:column headerText="TEXT" >  
+                    #{answer.text} 
+                </p:column>  
+
+                <p:column headerText="STATUS">  
+                   #{answer.status}  
+                </p:column>  
+            </p:dataTable>
+
             <h:dataTable value="#{answerController.answerList}" var="answer" border="1">
 
                 <h:column>
