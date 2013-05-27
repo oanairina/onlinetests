@@ -144,8 +144,14 @@ public class Controller implements Serializable {
             Query query = session.createQuery("from User where name = ? and password = ?");
             query.setParameter(0, name);
             query.setParameter(1, password);
-            if(query.list().size() == 1){
-                result = 1;
+            User user = null;
+            user = (User) query.list().get(0);
+            if (user != null) {
+                if (user.isType()) {
+                    result = 1;
+                } else {
+                    result = 0;
+                }
             }
             transaction.commit();
         } catch (Exception e) {

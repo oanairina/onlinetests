@@ -23,26 +23,14 @@ public class UserController implements Serializable {
         controller = new Controller();
     }
 
-//    public String addUserProfessor() {
-//        User user = new User(this.name, this.password, false);
-//        this.id = controller.addElement(user);
-//        this.name = null;
-//        this.password = null;
-//        return "index";
-//    }
-//    
-//    public String addUserStudent() {
-//        User user = new User(this.name, this.password, true);
-//        this.id = controller.addElement(user);
-//        this.name = null;
-//        this.password = null;
-//        return "index";
-//    }
-   
-    public String checkUser(){
+    public String checkUser() {
         Integer result = controller.getUser(this.name, this.password);
-        if(result!=null){
-            return "success";
+        if (result != null) {
+            if (result == 0) {
+                return "mainProfesor";
+            } else {
+                return "mainStudent";
+            }
         } else {
             return "error";
         }
