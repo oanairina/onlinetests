@@ -3,33 +3,43 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="top">
         Register as Professor
     </ui:define>
 
-    <ui:define name="body">
-        <h:form>
-            <h:panelGrid columns="2">
-                <h:outputText value="Name :"></h:outputText>
-                <h:inputText id="username" value="#{registerController.name}"
-                             required="true" requiredMessage="Please Enter Name!"></h:inputText>
+     <ui:define name="body">
+        <h:form id="form">  
 
-                <h:outputText value="Password :"></h:outputText>
-                <h:inputSecret id="password" value="#{registerController.password}"
-                               required="true" requiredMessage="Please Enter Password!"></h:inputSecret>
+            <p:panel id="panel" header="Professor Registration">  
 
-                <h:commandButton type="submit" value="Submit"
-                                 action="#{registerController.addUserProfessor}"></h:commandButton>
-                <h:commandButton type="reset" value="Reset"></h:commandButton>
-            </h:panelGrid>
-        </h:form>
+                <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="2">  
+                    <h:outputLabel for="username" value="Name: " />  
+                    <p:inputText id="username" value="#{registerController.name}" required="true" label="Name">  
+                        <f:validateLength minimum="2" />  
+                    </p:inputText>  
+
+                    <h:outputLabel for="password" value="Password: *" />  
+                    <p:password id="password" value="#{registerController.password}" label="Password" required="true">  
+                        <f:validateLength minimum="2" />  
+                    </p:password>  
+
+                </h:panelGrid>  
+
+                <p:commandButton id="btn" type="submit" value="Login" update="panel" action="#{registerController.addUserProfessor()}" ajax="false"/>  
+                 <p:commandButton value="Reset" type="reset" /> 
+                 
+            </p:panel>  
+        </h:form>  
     </ui:define>
-
+   
     <ui:define name="bottom">
         <h:form>
-            <h:commandButton value="Back" action="index"/>
+            <p:commandButton value="Back" action="index"/>
         </h:form>
     </ui:define>
 

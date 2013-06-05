@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="top">
+        <p:tabMenu activeIndex="5">  
+            <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+            <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-wrench"/>   
+            <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-wrench"/>  
+            <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+
+        </p:tabMenu>  
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="testForm">
+            <p:panel>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Description: " for="description"/>
+                    <p:inputText id="description" value="#{testBean.test.description}" />
+                    <p:outputLabel value="Start Date: " for="start_date"/>
+                    <p:calendar id="start_date" value="#{testBean.test.startDay}" showOn="button" />
+                    <p:outputLabel value="End Date: " for="end_date"/>
+                    <p:calendar id="end_date" value="#{testBean.test.endDay}"  showOn="button"/>
+                    <p:dialog header="Selected Dates" widgetVar="dialog"   
+                              showEffect="fade" hideEffect="fade">  
+                        <h:outputText value="#{testBean.test.startDay}" id="popupButtonDate">  
+                            <f:convertDateTime pattern="d/M/yyyy"/>  
+                        </h:outputText>
+                        <h:outputText value="#{testBean.test.endDay}" id="popupButtonDate2">  
+                            <f:convertDateTime pattern="d/M/yyyy"/>  
+                        </h:outputText>
+                    </p:dialog>
+                    <h:inputHidden />
+                    <p:outputLabel value="Score: " for="score"/>
+                    <p:progressBar id="score" value="#{testBean.score}" labelTemplate="#{testBean.score}" displayOnly="true" ajax="true" styleClass="animated"/>
+    
+                </h:panelGrid>
+            </p:panel>
+            <p:dataTable id="availableQuestions" var="question" value="#{testBean.questions}" paginator="true" rows="10" filteredValue="#{testBean.filteredQuestions}">       
+                <p:column headerText="Question">  
+                    <h:outputText value="#{question.text}" />  
+                </p:column>
+                <p:column headerText="Category" filterBy="#{question.category.name}" filterMatchMode="contains">  
+                    <h:outputText value="#{question.category.name}" />  
+                </p:column>  
+                <p:column headerText="Difficulty Level" filterBy="#{question.difficultyLevel}" filterMatchMode="contains">  
+                    <h:outputText value="#{question.difficultyLevel}" />  
+                </p:column>  
+
+                <p:column headerText="Created by">  
+                    <h:outputText value="#{question.user.name}" />  
+                </p:column>
+                <p:column headerText="Actions">  
+                    <p:commandButton value="Add" actionListener="#{testBean.selectQuestion(question)}" update=":testForm:selectedQuestions :testForm:score"/>  
+                </p:column> 
+            </p:dataTable> 
+
+
+            <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true" />
+            <p:dataTable id="selectedQuestions" var="question" value="#{testBean.selectedQuestions}">  
+                <p:column headerText="Text">  
+                    <h:outputText value="#{question.text}" />  
+                </p:column>  
+
+                <p:column headerText="Difficulty Level">  
+                    <h:outputText value="#{question.difficultyLevel}" />  
+                </p:column>  
+
+                <p:column headerText="Created by">  
+                    <h:outputText value="#{question.user.name}" />  
+                </p:column>  
+
+                <p:column>  
+                    <f:facet name="header">  
+                        <h:outputText value="Operation" />  
+                    </f:facet>  
+                    <p:commandLink value="Remove" actionListener="#{testBean.removeQuestion(question)}" update=":testForm:selectedQuestions :testForm:score" process=":testForm:selectedQuestions"/>    
+                </p:column>  
+
+            </p:dataTable> 
+
+
+        </h:form> 
+
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

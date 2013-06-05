@@ -23,5 +23,11 @@
             </key>
             <one-to-many class="pojo.Question" />
         </set>
+        <set name="tests" inverse="true" fetch="select" lazy="true">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="pojo.Test" />
+        </set>
     </class>
 </hibernate-mapping>

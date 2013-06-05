@@ -1,9 +1,13 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import pojo.User;
 
 @ManagedBean
@@ -17,22 +21,28 @@ public class UserController implements Serializable {
     //type = false -> profesor 
     //type = true -> student
     private boolean type;
-    private List<User> userList;
+    private User loggedUser;
 
     public UserController() {
         controller = new Controller();
     }
 
-    public String checkUser() {
-        Integer result = controller.getUser(this.name, this.password);
-        if (result != null) {
-            if (result == 0) {
-                return "mainProfesor";
-            } else {
-                return "mainStudent";
+    public void checkUser() {
+        this.loggedUser = controller.getUser(this.name, this.password);
+        this.name = null;
+        this.password = null;
+        if (loggedUser != null) {
+            try {
+                if (loggedUser.isType()) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("mainStudent.xhtml");
+                } else {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("mainProfesor.xhtml");
+                }
+            } catch (IOException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR !", null));
             }
         } else {
-            return "error";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed: ", "The combination of username and password does not exist"));
         }
     }
 
@@ -52,12 +62,12 @@ public class UserController implements Serializable {
         this.password = password;
     }
 
-    public List<User> getUserList() {
-        return userList;
+    public User getLoggedUser() {
+        return loggedUser;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     public boolean isType() {
@@ -66,5 +76,12 @@ public class UserController implements Serializable {
 
     public void setType(boolean type) {
         this.type = type;
+    }
+
+    public static Object getSessionObject(String objName) {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ExternalContext extCtx = ctx.getExternalContext();
+        Map<String, Object> sessionMap = extCtx.getSessionMap();
+        return sessionMap.get(objName);
     }
 }

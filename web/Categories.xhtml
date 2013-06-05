@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="top">
+        <p:tabMenu activeIndex="2">  
+            <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+             <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-wrench"/>  
+            <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-wrench"/>  
+            <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+
+        </p:tabMenu>  
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form">
+            <p:growl id="msgs" />  
+            <p:panel header="Create Category">  
+                <h:panelGrid columns="2" id="grid">  
+                    <h:outputLabel value="Category Name: " for="txt_title"></h:outputLabel>  
+                    <p:inputText id="input_name"   
+                                 value="#{categoryBean.category.name}" required="true"/>  
+                    <h:outputLabel value="Category Description: " for="txt_description"></h:outputLabel>  
+                    <p:inputText id="input_description"   
+                                 value="#{categoryBean.category.description}" required="true"/>  
+
+
+                    <h:outputLabel value="Choose Domain: " for="txt_domain"></h:outputLabel>  
+                    <p:selectOneMenu value="#{categoryBean.category.domain}">
+                        <f:selectItems var="domain" value="#{domainBean.domainList}" itemLabel="#{domain.name}" />
+                        <f:converter converterId="domainConverter" />
+                    </p:selectOneMenu>
+
+
+
+                    <p:commandButton value="Reset" type="reset"/>  
+                    <p:commandButton id="btn_add" value="Submit" update="categories msgs @parent"  
+                                     action="#{categoryBean.addCategory()}" />    
+                </h:panelGrid>  
+            </p:panel>  
+
+
+            <p:outputPanel id="categories">  
+                <p:dataTable id="categoriesTable" value="#{categoryBean.categoryList}" var="category">  
+
+                    <p:column>  
+
+                        <f:facet name="header">  
+                            <h:outputText value="Category" />  
+                        </f:facet>  
+                        <h:outputText value="#{category.name}" />
+                    </p:column>  
+                    
+                    <p:column> 
+                    <f:facet name="header">  
+                            <h:outputText value="Description" />  
+                        </f:facet>  
+                    <h:outputText value="#{category.description}" />
+                    </p:column>  
+
+                     <p:column> 
+                    <f:facet name="header">  
+                        <h:outputText value="Domain" />  
+                    </f:facet>  
+                    <h:outputText value="#{category.domain.name}" />
+                    </p:column>  
+
+
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Operation" />  
+                        </f:facet>  
+                        <p:commandLink value="Remove" actionListener="#{categoryBean.removeCategory(category)}" update=":form:categories" process=":form:categories"/>    
+                    </p:column>  
+
+                </p:dataTable>  
+            </p:outputPanel>  
+
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

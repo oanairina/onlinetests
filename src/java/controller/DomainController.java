@@ -8,7 +8,7 @@ import pojo.Domain;
 
 @ManagedBean
 @SessionScoped
-public class DomainController implements Serializable{
+public class DomainController implements Serializable {
 
     private Controller controller;
     private String name;
@@ -24,12 +24,19 @@ public class DomainController implements Serializable{
         return "domains";
     }
 
-    public String addDomain() {
+    public void addDomain() {
         Domain domain = new Domain(this.name);
         this.id = controller.addElement(domain);
         this.name = null;
-        return "index";
     }
+    /*
+     public void removeDomain(String name) {
+     Domain domain = controller.getDomainByName(name);
+     if(domain != null){
+     controller.removeElement(domain);
+     }
+     }
+     */
 
 //    public Domain find(String name) {
 //        Domain domain = null;
@@ -41,7 +48,6 @@ public class DomainController implements Serializable{
 //        }
 //        return domain;
 //    }
-
     public String getName() {
         return name;
     }
@@ -51,6 +57,7 @@ public class DomainController implements Serializable{
     }
 
     public List<Domain> getDomainList() {
+        this.domainList = controller.getDomains();
         return domainList;
     }
 

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="top">
+        <p:tabMenu activeIndex="4">  
+            <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+            <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-wrench"/>  
+            <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-document"/>  
+            <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+
+        </p:tabMenu>  
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form">
+            <p:panel header="Choose Question">  
+                <h:panelGrid columns="2" id="grid" cellpadding="5"> 
+                    <h:outputLabel value="Choose Domain: " for="domains"/> 
+                    <p:selectOneMenu id="domains" value="#{answerBean.domain}">   
+                        <f:selectItem itemLabel="Select Domain" itemValue="" />
+                        <f:selectItems value="#{answerBean.domainList}" />  
+                        <p:ajax update="categories" listener="#{answerBean.handleDomainChange()}" />
+                        <f:converter converterId="domainConverter" />
+                    </p:selectOneMenu>  
+                    <h:outputLabel value="Choose Category: " for="categories"/> 
+                    <p:selectOneMenu id="categories" value="#{answerBean.category}">
+                        <f:selectItem itemLabel="Select Category" itemValue="" />
+                        <f:selectItems value="#{answerBean.categoryList}" /> 
+                        <p:ajax update="questions" listener="#{answerBean.handleCategoryChange()}"/>
+                        <f:converter converterId="categoryConverter" />
+                    </p:selectOneMenu>  
+
+                    <h:outputLabel value="Choose Question: " for="questions"/> 
+                    <p:selectOneMenu id="questions" value="#{answerBean.answer.question}">
+                        <f:selectItem itemLabel="Select Question" itemValue="" />
+                        <f:selectItems value="#{answerBean.questionList}"/>  
+                        <f:converter converterId="questionConverter" />
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+            </p:panel>
+
+
+            <p:panel  header="Create Answer">
+                <h:panelGrid columns="2" id="grid2">  
+                    <h:outputLabel value="Answer : *" for="txt_answer"/>
+                    <p:inputText id="txt_answer"   
+                                 value="#{answerBean.answer.text}" required="false"/>  
+
+                    <h:outputLabel value="Correct : *" for="txt_status"/>
+                    <p:selectBooleanCheckbox id="txt_status" value="#{answerBean.answer.status}" />  
+                    <p:commandButton id="btn_add" value="Add" update="answers @parent"  
+                                     action="#{answerBean.reinit}" >  
+                        <p:collector value="#{answerBean.answer}"   
+                                     addTo="#{answerBean.answerList}" />  
+                    </p:commandButton>  
+                </h:panelGrid>  
+            </p:panel>  
+
+            <p:outputPanel id="answers">  
+                <p:dataTable id="answersTable" value="#{answerBean.answerList}" var="answer">  
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Answer" />  
+                        </f:facet>  
+                        <h:outputText value="#{answer.text}" />  
+                    </p:column> 
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Correct" />  
+                        </f:facet>  
+                        <h:outputText value="#{answer.status}" />  
+                    </p:column>
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Actions" />  
+                        </f:facet>  
+                        <p:commandLink value="Remove" actionListener="#{answerBean.removeAnswer(answer)}" update=":form:answers"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Save Answers" actionListener="#{answerBean.saveAnswers}" ajax="false"/>
+            </p:outputPanel>  
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

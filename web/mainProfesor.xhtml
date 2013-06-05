@@ -1,40 +1,54 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="./template.xhtml">
-        <ui:define name="body">
-            <h:form>
-                <h:commandLink action="adddomain" value="Add domain"/> 
-                <br />
-                <h:commandLink action="#{domainController.getDomains}" value="View domains"/> 
+    <ui:define name="top"> 
+       
+            <p:tabMenu activeIndex="0">  
+                 <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+                <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-document"/>  
+                <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-wrench"/>  
+                  <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+            </p:tabMenu>  
+       
+    </ui:define>
+    
+    <ui:define name="body">
+        <h:form>
+            <h:commandLink action="adddomain" value="Add domain"/> 
+            <br />
+            <h:commandLink action="#{domainController.getDomains}" value="View domains"/> 
 
-                <br />
-                <h:commandLink action="addcategory" value="Add Category"/> 
-                <br />
-                <h:commandLink action="#{categoryController.getCategories}" value="View categories"/> 
+            <br />
+            <h:commandLink action="addcategory" value="Add Category"/> 
+            <br />
+            <h:commandLink action="#{categoryController.getCategories}" value="View categories"/> 
 
-                <br />
-                <h:commandLink action="addquestion" value="Add Question"/> 
-                <br />
-                <h:commandLink action="#{questionController.getQuestions}" value="View questions"/> 
-                <br/>
-                <h:commandLink action="addanswer" value="Add Answer"/> 
-                <br />
-                <h:commandLink action="#{answerController.getAnswers}" value="View answers"/> 
+            <br />
+            <h:commandLink action="addquestion" value="Add Question"/> 
+            <br />
+            <h:commandLink action="#{questionController.getQuestions}" value="View questions"/> 
+            <br/>
+            <h:commandLink action="addanswer" value="Add Answer"/> 
+            <br />
+            <h:commandLink action="#{answerController.getAnswers}" value="View answers"/> 
 
-                <br />
-                <h:commandLink action="add" value="Add new answer"/> 
-            </h:form>
-        </ui:define>
-        <ui:define name="bottom">
-            <h:form>
-                <h:commandButton action="back" value="Back"/>
-               
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</html>
+            <br />
+            <h:commandLink action="add" value="Add new answer"/> 
+        </h:form>
+    </ui:define>
+    <ui:define name="bottom">
+        <h:form>
+            <h:commandButton action="back" value="Back"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+
 

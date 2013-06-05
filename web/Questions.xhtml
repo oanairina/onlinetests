@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="top">
+        <p:tabMenu activeIndex="3">  
+            <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+            <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+            <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-wrench"/>  
+            <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-document"/>  
+            <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+
+        </p:tabMenu>  
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form">
+            <p:growl id="msgs" />  
+            <p:panel header="Create Question">  
+                <h:panelGrid columns="2" id="grid"> 
+                    
+                     <h:outputLabel value="Choose Category: " for="categories"></h:outputLabel>  
+                    <h:selectOneMenu id="categories" value="#{questionBean.question.category}">
+                        <f:selectItems var="category" value="#{categoryBean.categoryList}"/>
+                        <f:converter converterId="categoryConverter" />
+                    </h:selectOneMenu>
+                    
+                    <h:outputLabel value="Question text: " for="input_text"/> 
+                    <p:inputText id="input_text"   
+                                 value="#{questionBean.question.text}" required="true"/>  
+                    
+                   <h:outputLabel value="Question difficulty: " for="difficulty"/>
+                    <p:selectOneMenu id="difficulty" value="#{questionBean.question.difficultyLevel}">
+                <f:selectItems value="#{questionController.dificulty_levels}"/>
+            </p:selectOneMenu>
+                    <p:commandButton value="Reset" type="reset"/>  
+                    <p:commandButton id="btn_add" value="Submit" update="questions msgs @parent"  
+                                     action="#{questionBean.addQuestion()}" />    
+                </h:panelGrid>  
+            </p:panel>  
+
+
+            <p:outputPanel id="questions">  
+                <p:dataTable id="questionsTable" value="#{questionBean.questionList}" var="question">  
+
+                    <p:column>  
+
+                        <f:facet name="header">  
+                            <h:outputText value="Question" />  
+                        </f:facet>  
+                        <h:outputText value="#{question.text}" />
+                    </p:column>  
+
+                    <p:column> 
+                        <f:facet name="header">  
+                            <h:outputText value="Difficulty Level" />  
+                        </f:facet>  
+                        <h:outputText value="#{question.difficultyLevel}" />
+                    </p:column>  
+
+                    <p:column> 
+                        <f:facet name="header">  
+                            <h:outputText value="Category" />  
+                        </f:facet>  
+                        <h:outputText value="#{question.category.name}" />
+                    </p:column>  
+
+
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Operation" />  
+                        </f:facet>  
+                        <p:commandLink value="Remove" actionListener="#{questionBean.removeQuestion(question)}" update=":form:questions" process=":form:questions"/>    
+                    </p:column>  
+
+                </p:dataTable>  
+            </p:outputPanel>  
+
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

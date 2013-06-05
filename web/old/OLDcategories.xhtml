@@ -1,13 +1,24 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
  <ui:define name="top">
-        top
+         
+             <p:tabMenu activeIndex="2">  
+                <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Category" url="/faces/categories.xhtml" icon="ui-icon-search" />  
+                <p:menuitem value="Questions" url="/faces/answers.xhtml" icon="ui-icon-document"/>  
+                <p:menuitem value="Answers" url="/faces/questions.xhtml" icon="ui-icon-wrench"/>  
+                 
+            </p:tabMenu>  
+ 
     </ui:define>
+  
 
       <ui:define name="body">
         <h:form>

@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import pojo.Answer;
 import pojo.Category;
 import pojo.Domain;
@@ -39,7 +40,25 @@ public class Controller implements Serializable {
         return id;
     }
 
-    public List getDomains() {
+    public void removeElement(Object element) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(element);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /*------Domains-----*/
+    public List<Domain> getDomains() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Domain> domainList = null;
         try {
@@ -53,6 +72,24 @@ public class Controller implements Serializable {
             session.close();
         }
         return domainList;
+    }
+
+    public Domain getDomainByName(String domainName) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            return (Domain) session.createCriteria(Domain.class).
+                    add(Restrictions.eq("name", domainName)).
+                    uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void removeDomain(String name) {
+        Domain domain = getDomainByName(name);
+        if (domain != null) {
+            removeElement(domain);
+        }
     }
 
     /*------Category-----*/
@@ -88,6 +125,25 @@ public class Controller implements Serializable {
         return categoryList;
     }
 
+    public Category getCategoryByName(String categoryName) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            return (Category) session.createCriteria(Category.class).
+                    add(Restrictions.eq("name", categoryName)).
+                    uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void removeCategory(String name) {
+        Category category = getCategoryByName(name);
+        if (category != null) {
+            removeElement(category);
+        }
+    }
+
+    /*------Questions-----*/
     public List getQuestions() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Question> questionsList = null;
@@ -119,7 +175,27 @@ public class Controller implements Serializable {
         }
         return questionsList;
     }
+    
+       public Question getQuestionByID(int questionID) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            return (Question) session.createCriteria(Question.class).
+                    add(Restrictions.eq("id", questionID)).
+                    uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
+    
+      public void removeQuestion(int id) {
+        Question question = getQuestionByID(id);
+        if (question != null) {
+            removeElement(question);
+        }
+      }
 
+      
+        /*------Answers-----*/
     public List getAnswers() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Answer> answersList = null;
@@ -136,29 +212,48 @@ public class Controller implements Serializable {
         return answersList;
     }
 
-    public Integer getUser(String name, String password) {
+    public List<User> getUsersList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Integer result = null;
+        List<User> usersList = null;
         try {
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("from User where name = ? and password = ?");
-            query.setParameter(0, name);
-            query.setParameter(1, password);
-            User user = null;
-            user = (User) query.list().get(0);
-            if (user != null) {
-                if (user.isType()) {
-                    result = 1;
-                } else {
-                    result = 0;
-                }
-            }
+            Query query = session.createQuery("from User");
+            usersList = (List<User>) query.list();
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             session.close();
         }
-        return result;
+        return usersList;
+    }
+
+    public User getUser(String name, String password) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User userResult = null;
+        try {
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from User where name = ? and password = ?");
+            query.setParameter(0, name);
+            query.setParameter(1, password);
+            userResult = (User) query.list().get(0);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return userResult;
+    }
+
+    public User getUserById(int id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            return (User) session.createCriteria(User.class).
+                    add(Restrictions.eq("id", id)).
+                    uniqueResult();
+        } finally {
+            session.close();
+        }
     }
 }

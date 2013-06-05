@@ -16,6 +16,7 @@ public class User  implements java.io.Serializable {
      private String password;
      private boolean type;
      private Set questions = new HashSet(0);
+     private Set tests = new HashSet(0);
 
     public User() {
     }
@@ -68,6 +69,13 @@ public class User  implements java.io.Serializable {
         this.questions = questions;
     }
 
+    public Set getTests() {
+        return this.tests;
+    }
+    
+    public void setTests(Set tests) {
+        this.tests = tests;
+    }
 
 
 

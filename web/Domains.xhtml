@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui" >
+
+    <ui:define name="top">
+         <p:tabMenu activeIndex="1">  
+                <p:menuitem value="Home" url="/faces/mainProfesor.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Domain" url="/faces/Domains.xhtml" icon="ui-icon-star"/>  
+                <p:menuitem value="Category" url="/faces/Categories.xhtml" icon="ui-icon-search" />  
+                 <p:menuitem value="Questions" url="/faces/Questions.xhtml" icon="ui-icon-wrench"/>   
+                <p:menuitem value="Answers" url="/faces/Answers.xhtml" icon="ui-icon-wrench"/>  
+                 <p:menuitem value="Tests" url="/faces/Test.xhtml" icon="ui-icon-wrench"/>  
+                 
+            </p:tabMenu>  
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form">
+            <p:growl id="msgs" />  
+            <p:panel header="Create Domain">  
+                <h:panelGrid columns="2" id="grid">  
+                    <h:outputLabel value="Title : *" for="txt_title"></h:outputLabel>  
+                    <p:inputText id="txt_title"   
+                                 value="#{domainController.name}" required="true"/>  
+
+
+
+                    <p:commandButton value="Reset" type="reset"/>  
+                    <p:commandButton id="btn_add" value="Submit" update="domains msgs @parent"  
+                                     action="#{domainController.addDomain}" >  
+                        <p:collector value="#{domainBean.domain}"   
+                                     addTo="#{domainBean.domainList}" />  
+                    </p:commandButton>  
+                </h:panelGrid>  
+            </p:panel>  
+
+
+            <p:outputPanel id="domains">  
+                <p:dataTable id="domainsTable" value="#{domainBean.domainList}" var="domain">  
+
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Domain" />  
+                        </f:facet>  
+                        <h:outputText value="#{domain.name}" />
+                    </p:column>  
+
+
+                    <p:column>  
+                        <f:facet name="header">  
+                            <h:outputText value="Operation" />  
+                        </f:facet>  
+                        <p:commandLink value="Remove" actionListener="#{domainBean.removeDomain(domain)}" update=":form:domains" process=":form:domains"/>    
+                    </p:column>  
+
+                </p:dataTable>  
+            </p:outputPanel>  
+
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

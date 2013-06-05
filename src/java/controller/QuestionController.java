@@ -26,11 +26,6 @@ public class QuestionController implements Serializable {
         dificulty_levels = new Integer[]{1, 2, 3, 4, 5};
     }
 
-    public String getQuestions() {
-        this.questionList = controller.getQuestions();
-        return "questions";
-    }
-
     public String addQuestion() {
         Question question = new Question(this.user, this.category, this.text, this.dificulty_level);
         this.id = controller.addElement(question);
@@ -58,6 +53,7 @@ public class QuestionController implements Serializable {
     }
 
     public List<Question> getQuestionList() {
+        this.questionList = controller.getQuestions();
         return questionList;
     }
 
