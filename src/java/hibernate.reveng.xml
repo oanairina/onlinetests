@@ -8,6 +8,7 @@
     <table-filter match-name="answer"/>
     <table-filter match-name="user"/>
     <table-filter match-name="test"/>
-  
-  
+    <table-filter match-name="test_question"/> 
+    <table-filter match-name="user_categories"/>
+
 </hibernate-reverse-engineering>

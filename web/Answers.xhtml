@@ -39,9 +39,10 @@
                     </p:selectOneMenu>  
 
                     <h:outputLabel value="Choose Question: " for="questions"/> 
-                    <p:selectOneMenu id="questions" value="#{answerBean.answer.question}">
+                    <p:selectOneMenu id="questions" value="#{answerBean.selectedQuestion}" >
                         <f:selectItem itemLabel="Select Question" itemValue="" />
-                        <f:selectItems value="#{answerBean.questionList}"/>  
+                        <f:selectItems value="#{answerBean.questionList}"/> 
+                         <p:ajax update="answers" listener="#{answerBean.handleQuestionChange()}"/>
                         <f:converter converterId="questionConverter" />
                     </p:selectOneMenu>
 

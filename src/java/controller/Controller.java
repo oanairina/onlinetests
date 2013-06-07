@@ -13,6 +13,7 @@ import pojo.Domain;
 import pojo.HibernateUtil;
 import pojo.Question;
 import pojo.User;
+import pojo.UserCategories;
 
 public class Controller implements Serializable {
 
@@ -211,6 +212,23 @@ public class Controller implements Serializable {
         }
         return answersList;
     }
+    
+    public List getAnswersByQuestionId(int id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Answer> answersList = null;
+        try {
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from Answer where question_id ="+id);
+            answersList = (List<Answer>) query.list();
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return answersList;
+    }
+    
 
     public List<User> getUsersList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -255,5 +273,24 @@ public class Controller implements Serializable {
         } finally {
             session.close();
         }
+    }
+    
+    public UserCategories getUserCategory(User user, Category category){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        UserCategories result = null;
+        try {
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from UserCategories where user_id = ? and category_id = ?");
+            query.setParameter(0, user.getId());
+            query.setParameter(1, category.getId());
+            result = (UserCategories) query.list().get(0);
+            transaction.commit();
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+        return result;
     }
 }

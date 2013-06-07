@@ -19,6 +19,7 @@ public class AnswerBean implements Serializable {
     private Answer answer = new Answer();
     private Category category;
     private Domain domain;
+    private Question selectedQuestion;
     private List<Domain> domainList; 
     private List<Category> categoryList;
     private List<Question> questionList;
@@ -113,19 +114,27 @@ public class AnswerBean implements Serializable {
         }  
     }
     
+    public void handleQuestionChange(){
+        answerList = controller.getAnswersByQuestionId(selectedQuestion.getId());
+    }
+    
     public void removeAnswer(Answer answer){
         answerList.remove(answer);
     }
     
     public void saveAnswers(){
-        int i =3;
-        String ceva;
-        if(true){
-            ceva = "";
-        }
         for(Answer answerFromList:answerList){
+            answerFromList.setQuestion(selectedQuestion);
             controller.addElement(answerFromList);
         }
+    }
+
+    public Question getSelectedQuestion() {
+        return selectedQuestion;
+    }
+
+    public void setSelectedQuestion(Question selectedQuestion) {
+        this.selectedQuestion = selectedQuestion;
     }
     
 }

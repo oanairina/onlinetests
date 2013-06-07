@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 03-Jun-2013 15:18:21 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class catalog="onlinetests" name="pojo.Category" table="category">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="domain" class="pojo.Domain" fetch="select" lazy="false">
+            <column name="domain_id" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column length="50" name="name" not-null="true" unique="true"/>
+        </property>
+        <property name="description" type="string">
+            <column length="200" name="description" not-null="true"/>
+        </property>
+        <set name="questions" inverse="true" fetch="select" lazy="true">
+            <key>
+                <column name="category_id" not-null="true" />
+            </key>
+            <one-to-many class="pojo.Question" />
+        </set>
+        <set name="tests" inverse="true" fetch="select" lazy="true">
+            <key>
+                <column name="category_id" not-null="true" />
+            </key>
+            <one-to-many class="pojo.Test" />
+        </set>
+    </class>
+</hibernate-mapping>
